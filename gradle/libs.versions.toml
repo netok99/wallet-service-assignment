@@ -1,0 +1,27 @@
+[versions]
+hikari = "6.2.1"
+springframework = "3.4.4"
+spring-dependency-management = "1.1.7"
+junit-platform-launcher = "1.12.1"
+postgresql = "42.7.5"
+testcontainers = "1.19.3"
+mockito = "5.16.1"
+
+[plugins]
+springframework = { id = "org.springframework.boot", version.ref = "springframework" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+
+[libraries]
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "springframework" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springframework" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "springframework" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springframework" }
+spring-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc", version.ref = "springframework" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform-launcher" }
+hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+
+[bundles]
+springframework = ["spring-boot-starter", "spring-boot-starter-test", "spring-boot-starter-web", "spring-boot-starter-actuator"]
