@@ -5,16 +5,19 @@ import com.domain.entity.Wallet;
 import com.domain.repository.WalletRepository;
 import com.exception.InsufficientFundsException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDateTime;
 
 @Service
 public class DBWalletRepository implements WalletRepository {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public DBWalletRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -41,6 +44,19 @@ public class DBWalletRepository implements WalletRepository {
             .query(
                 "SELECT id, wallet_id, amount, created_at FROM transaction WHERE wallet_id = ?",
                 transactionRowMapper,
+                recoverWalletFromUser(userId).id()
+            );
+    }
+
+    @Override
+    public List<Transaction> retrieveHistoricalBalance(Long userId, LocalDate initDate, LocalDate endDate) {
+        return jdbcTemplate
+            .query(
+                "SELECT id, wallet_id, amount, created_at FROM transaction WHERE created_at::date " +
+                    "BETWEEN ? AND ? AND wallet_id = ?",
+                transactionRowMapper,
+                java.sql.Date.valueOf(initDate),
+                java.sql.Date.valueOf(endDate),
                 recoverWalletFromUser(userId).id()
             );
     }
@@ -87,6 +103,9 @@ public class DBWalletRepository implements WalletRepository {
         resultSet.getLong("id"),
         resultSet.getLong("wallet_id"),
         resultSet.getBigDecimal("amount"),
-        resultSet.getString("created_at")
+        LocalDateTime.parse(
+            resultSet.getString("created_at"),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
+        )
     );
 }

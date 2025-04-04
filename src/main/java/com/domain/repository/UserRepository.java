@@ -7,6 +7,4 @@ public interface UserRepository {
     void create(User user);
 
     List<User> recover();
-
-    User recover(Long userId);
 }

@@ -1,0 +1,108 @@
+{
+  "info": {
+    "name": "wallet-service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "balance",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8080/wallet/balance/?user_id=1"
+      }
+    },
+    {
+      "name": "createUser",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://127.0.0.1:8080/user/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Neto\",\n  \"email\": \"neto@gmail.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "recoverUsers",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8080/user/"
+      }
+    },
+    {
+      "name": "recoverWallets",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8080/wallet/"
+      }
+    },
+    {
+      "name": "transaction",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://127.0.0.1:8080/wallet/transaction/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": 1,\n  \"amount\": 10\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "transactions",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8080/wallet/transaction/"
+      }
+    },
+    {
+      "name": "transfer",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://127.0.0.1:8080/wallet/transfer/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_user_id\": 1,\n  \"destination_user_id\": 2,\n  \"amount\": 5\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "balanceHistorical",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8080/wallet/balance/?user_id=1&init_date=01/04/2025&end_date=03/04/2025"
+      }
+    }
+  ],
+  "variable": []
+}

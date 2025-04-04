@@ -1,6 +1,5 @@
-package com;
+package com.exception;
 
-import com.exception.InsufficientFundsException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;

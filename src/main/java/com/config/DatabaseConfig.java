@@ -1,4 +1,4 @@
-package com;
+package com.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -19,50 +19,41 @@ import java.util.stream.Collectors;
 @Configuration
 @ConfigurationProperties(prefix = "spring.datasource")
 public class DatabaseConfig {
-//    private String jdbcUrl;
-//    private String username;
-//    private String password;
-//
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-//
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-//
-//    public String getUrl() {
-//        return jdbcUrl;
-//    }
-//
-//    public void setUrl(String jdbcUrl) {
-//        this.jdbcUrl = jdbcUrl;
-//    }
 
     @Value("${spring.datasource.schema:classpath:schema.sql}")
     private String schemaLocation;
 
+    @Value("${spring.datasource.url}")
+    private String datasourceUrl;
+
+    @Value("${spring.datasource.username}")
+    private String datasourceUsername;
+
+    @Value("${spring.datasource.password}")
+    private String datasourcePassword;
+
+    @Value("${spring.datasource.hikari.connection-timeout}")
+    private Long hikariConnectionTimeout;
+
+    @Value("${spring.datasource.hikari.minimum-idle}")
+    private int hikariMinimumIdle;
+
+    @Value("${spring.datasource.hikari.maximum-pool-size}")
+    private int hikariMaximumPoolSize;
+
+    @Value("${spring.datasource.hikari.idle-timeout}")
+    private Long hikariIdleTimeout;
+
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-//        config.setJdbcUrl(jdbcUrl);
-        config.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-//        config.setUsername(username);
-        config.setUsername("postgres");
-//        config.setPassword(password);
-        config.setPassword("postgres");
-        config.setConnectionTimeout(20000);
-        config.setMinimumIdle(5);
-        config.setMaximumPoolSize(10);
-        config.setIdleTimeout(300000);
+        config.setJdbcUrl(datasourceUrl);
+        config.setUsername(datasourceUsername);
+        config.setPassword(datasourcePassword);
+        config.setConnectionTimeout(hikariConnectionTimeout);
+        config.setMinimumIdle(hikariMinimumIdle);
+        config.setMaximumPoolSize(hikariMaximumPoolSize);
+        config.setIdleTimeout(hikariIdleTimeout);
         config.setPoolName("springHikariCP");
         HikariDataSource dataSource = new HikariDataSource(config);
         initializeSchema(dataSource);
@@ -71,7 +62,9 @@ public class DatabaseConfig {
 
     private void initializeSchema(HikariDataSource dataSource) {
         try {
-            ClassPathResource resource = new ClassPathResource(schemaLocation.replace("classpath:", ""));
+            ClassPathResource resource = new ClassPathResource(
+                schemaLocation.replace("classpath:", "")
+            );
             String sqlQuery = new BufferedReader(
                 new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)
             )

@@ -20,8 +20,4 @@ public class UserUseCase {
     public List<User> recover() {
         return userRepository.recover();
     }
-
-    public User recover(Long userId) {
-        return userRepository.recover(userId);
-    }
 }

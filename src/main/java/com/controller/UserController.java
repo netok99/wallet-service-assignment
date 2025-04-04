@@ -35,9 +35,4 @@ public class UserController {
     public ResponseEntity<List<User>> recover() {
         return ResponseEntity.status(HttpStatus.OK).body(userUseCase.recover());
     }
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> recover(@PathVariable("userId") Long userId) {
-        return ResponseEntity.status(HttpStatus.OK).body(userUseCase.recover(1L));
-    }
 }

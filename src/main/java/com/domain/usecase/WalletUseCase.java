@@ -5,6 +5,7 @@ import com.domain.entity.Wallet;
 import com.domain.repository.WalletRepository;
 import com.exception.InsufficientFundsException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public class WalletUseCase {
@@ -22,6 +23,14 @@ public class WalletUseCase {
     public BigDecimal retrieveBalance(Long userId) {
         return walletRepository
             .retrieveTransactions(userId)
+            .stream()
+            .map(Transaction::amount)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal retrieveHistoricalBalance(Long userId, LocalDate initDate, LocalDate endDate) {
+        return walletRepository
+            .retrieveHistoricalBalance(userId, initDate, endDate)
             .stream()
             .map(Transaction::amount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);

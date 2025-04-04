@@ -42,12 +42,6 @@ public class DBUserRepository implements UserRepository {
         return jdbcTemplate.query("SELECT * FROM account;", userRowMapper);
     }
 
-    @Override
-    public User recover(Long userId) {
-        return jdbcTemplate
-            .queryForObject("SELECT id, name, email FROM account WHERE id = ?;", userRowMapper, userId);
-    }
-
     private final RowMapper<User> userRowMapper = (resultSet, rowNum) -> new User(
         resultSet.getLong("id"),
         resultSet.getString("name"),
